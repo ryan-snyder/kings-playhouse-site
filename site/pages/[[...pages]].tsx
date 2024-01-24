@@ -20,6 +20,7 @@ export async function getStaticProps({
 }: GetStaticPropsContext<{ pages: string[] }>) {
   const config = { locale, locales }
   const { categories } = await commerce.getSiteInfo({ config, preview })
+  const { pages } = await commerce.getAllPages({config, preview })
   const { attributes } = parsePersonalizedURL(params!.pages || [])
   const page =
     (await builder
@@ -36,6 +37,7 @@ export async function getStaticProps({
 
   return {
     props: {
+      pages,
       page,
       categories,
       attributes: attributes,
@@ -54,6 +56,7 @@ export async function getStaticPaths() {
 export default function Pages({
   page,
   attributes,
+  pages
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   const isPreviewingInBuilder = useIsPreviewing()
 
@@ -77,11 +80,16 @@ export default function Pages({
           description,
         }}
       />
-      {isPreviewingInBuilder || page ? (
-        <BuilderComponent model="page" content={page} />
-      ) : (
-        <DefaultErrorPage statusCode={404} />
-      )}
+      <Layout pageProps={{
+        pages: pages,
+        categories: []
+      }} logo={page?.data.logo}>
+        {isPreviewingInBuilder || page ? (
+          <BuilderComponent model="page" content={page} />
+        ) : (
+          <DefaultErrorPage statusCode={404} />
+        )}
+      </Layout>
     </>
   )
 }

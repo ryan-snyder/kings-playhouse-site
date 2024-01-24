@@ -13,16 +13,17 @@ interface Link {
 
 interface NavbarProps {
   links?: Link[]
+  logo: string
 }
 
-const Navbar: FC<NavbarProps> = ({ links }) => (
+const Navbar: FC<NavbarProps> = ({ links, logo }) => (
   <NavbarRoot>
     <Container clean className="mx-auto max-w-8xl px-6">
       <div className={s.nav}>
         <div className="flex items-center flex-1">
           <Link href="/">
             <a className={s.logo} aria-label="Logo">
-              <Logo />
+              <Logo logo={logo} />
             </a>
           </Link>
           <nav className={s.navMenu}>
@@ -43,9 +44,6 @@ const Navbar: FC<NavbarProps> = ({ links }) => (
             <Searchbar />
           </div>
         )}
-        <div className="flex items-center justify-end flex-1 space-x-8">
-          <UserNav />
-        </div>
       </div>
       {process.env.COMMERCE_SEARCH_ENABLED && (
         <div className="flex pb-4 lg:px-6 lg:hidden">

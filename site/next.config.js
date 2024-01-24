@@ -14,6 +14,11 @@ module.exports = withCommerceConfig({
     locales: ['en-US', 'es'],
     defaultLocale: 'en-US',
   },
+  images: {
+    domains: [
+      "cdn.builder.io"
+    ]
+  },
   rewrites() {
     return [
       (isBC || isShopify || isSwell || isVendure || isSaleor) && {

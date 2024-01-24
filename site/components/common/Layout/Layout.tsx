@@ -52,7 +52,8 @@ interface Props {
   pageProps: {
     pages?: Page[]
     categories: Category[]
-  }
+  },
+  logo: string
 }
 
 const ModalView: React.FC<{ modalView: string; closeModal(): any }> = ({
@@ -105,6 +106,7 @@ const SidebarUI: React.FC<{ links: LinkProps[] }> = ({ links }) => {
 const Layout: React.FC<Props> = ({
   children,
   pageProps: { categories = [], ...pageProps },
+  logo
 }) => {
   const { acceptedCookies, onAcceptCookies } = useAcceptCookies()
   const { locale = 'en-US' } = useRouter()
@@ -125,17 +127,12 @@ const Layout: React.FC<Props> = ({
   ]
 
   return (
-    <CommerceProvider locale={locale}>
       <div className={cn(s.root)}>
-        <Navbar links={navBarlinks} />
+        <Navbar links={navBarlinks} logo={logo}/>
         <main className="fit">{children}</main>
         <Footer pages={pageProps.pages} />
         <ModalUI />
-        <CheckoutProvider>
-          <SidebarUI links={navBarlinks} />
-        </CheckoutProvider>
       </div>
-    </CommerceProvider>
   )
 }
 
